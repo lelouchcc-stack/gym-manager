@@ -1,6 +1,5 @@
 package com.lelcc.utils;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,33 +11,28 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-
     @Value("${jwt.secret:gymmanagersjwtseretkey12345678901}")
     private String secret;
     @Value("${jwt.expiration:86400000}")
     private Long expire;
 
-    // 生成token
     public String createToken(Long user_id){
         Map<String,Object> map = new HashMap<>();
         map.put("user_id",user_id);
+        map.put("exp",new Date(System.currentTimeMillis() + expire));
 
-        map.put("exp",new Date(System.currentTimeMillis()+expire));
         return JWTUtil.createToken(map,secret.getBytes());
     }
-    // 检验token
     public boolean validateToken(String token){
         try {
-            return JWTUtil.verify(token,secret.getBytes());
-        }
-        catch (Exception e) {
+            return JWTUtil.verify(token, secret.getBytes());
+        }catch (Exception e){
             return false;
         }
+
     }
 
-    // 解析token
     public Long getUserId(String token){
-        //parseToken 将字符串转成JWT
         JWT jwt = JWTUtil.parseToken(token);
         return Long.valueOf(jwt.getPayloads().get("user_id").toString());
     }

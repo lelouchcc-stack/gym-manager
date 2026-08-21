@@ -7,17 +7,15 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfig  implements WebMvcConfigurer {
 
     @Resource
     private JwtInterceptor jwtInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**")
+        .excludePathPatterns("/user/login").excludePathPatterns("/error");
 
-        registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/error");
     }
 }
