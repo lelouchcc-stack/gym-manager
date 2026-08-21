@@ -1,3 +1,4 @@
+
 CREATE DATABASE IF NOT EXISTS gym_manage 
     DEFAULT CHARACTER SET utf8mb4 
     COLLATE utf8mb4_general_ci;
@@ -185,3 +186,27 @@ CREATE TABLE booking_record(
     KEY idx_schedule(schedule_id),
     UNIQUE KEY uk_schedule_member(schedule_id,member_id) COMMENT '同一人一个时间段只能参加一个'
 )ENGINE = InnoDB COMMENT= '预约记录表'
+
+
+INSERT INTO sys_role (id,role_name,role_key,status) VALUES
+(1,'超级管理员','admin',1),
+(2,'前台','staff',1),
+(3,'教练','coach',1);
+
+INSERT INTO sys_menu(id,parent_id,menu_name,menu_type,path,component,perms,icon,sort) VALUES
+(1,0,'系统管理','M','/system',null,null,'setting',1),
+(2,1,'用户管理','C','user','system/user/index','system:user:list','user',1),
+(3,2,'新增用户','F',null,null,'system:user:add',null,1),
+(4,2,'删除用户','F',null,null,'system:user:delete',null,2);
+
+INSERT INTO sys_menu(id,parent_id,menu_name,menu_type,path,component,perms,icon,sort) VALUES
+(10,0,'会员管理','C','member','member/index','member:list','user',10),
+(11,10,'新增会员','F',null,null,'member:add',null,1),
+(12,10,'删除会员','F',null,null,'member:delete',null,2);
+
+INSERT INTO sys_role_menu(role_id,menu_id) VALUES
+(1,1),(1,2),(1,3),(1,4),(1,10),(1,11),(1,12),
+(2,10),(2,11),(2,12);
+
+INSERT INTO sys_user_role(user_id,role_id) VALUES
+(1,1);

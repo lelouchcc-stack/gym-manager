@@ -1,23 +1,19 @@
 package com.lelcc.entity;
 
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@TableName("sys_user")
+@TableName("sys_role")
 @Data
-public class SysUser {
+public class SysRole {
     private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private String phone;
-    private String avatar;
-    private String nickname;
+    private String roleName;
+    private String roleKey;
+    private Integer sort;
     private Integer status;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private String remark;
-
 }
